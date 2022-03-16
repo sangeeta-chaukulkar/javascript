@@ -30,6 +30,7 @@ var items=document.getElementsByClassName('list-group-item');
 console.log(items[0]);
 items[1].textContent='Hello 2';
 item[1].style.fontWeight='bold';
+
 item[1].style.backgroundColor='yellow';
 
 for(var i=0;i< items.length;i++){
@@ -39,5 +40,18 @@ for(var i=0;i< items.length;i++){
 }
 
 items[2].style.backgroundColor='#00FF00';
+
+//var newLi=document.createElement('li');
+var newLi=document.getElementsByClassName('lists');
+newLi.textContent='Hello 5';
+newLi.style.fontWeight='bold';
+newLi.style.backgroundColor='yellow';
+
+var li=document.getElementsByTagName('li');
+//console.log(li[1]);
+li[4].style.fontWeight='bold';
+li[4].style.backgroundColor='yellow';
+
+
 
 
