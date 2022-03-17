@@ -28,8 +28,40 @@ function submitform(e){
         phone:phone,
         date:date,
         time:time};
-    localStorage.setItem('userDetails',JSON.stringify(data));
+    localStorage.setItem(email,JSON.stringify(data));
 }
 
-var data1=localStorage.getItem('userDetails');
-alert(data1);
+for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    var val=JSON.parse(localStorage.getItem(key));
+    // console.log(val['email']);
+    var newDiv =  document.createElement('div');
+    newDiv.id = 'hello1';
+    var newDivText = document.createTextNode(val['email']);
+    var newDivText1 = document.createTextNode(val['name']);
+    var newDivText2 = document.createTextNode(val['phone']);
+    var newDivText3 = document.createTextNode(val['date']);
+    var newDivText4 = document.createTextNode(val['time']);
+    newDiv.appendChild(newDivText1);
+    newDiv.appendChild (document.createTextNode ("    "));
+    newDiv.appendChild(newDivText);
+    newDiv.appendChild (document.createTextNode ("       "));
+    newDiv.appendChild(newDivText2);
+    newDiv.appendChild (document.createTextNode ("    "));
+    newDiv.appendChild(newDivText3);
+    newDiv.appendChild (document.createTextNode ("       "));
+    newDiv.appendChild(newDivText4);
+   
+    newDiv.style.fontSize = '15px';
+    var desc = document.getElementById('desc');
+    desc.parentNode.insertBefore(newDiv, desc);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    var val=JSON.parse(localStorage.getItem('admin@gmail.com'));
+    document.getElementById('name').value=val['name'];
+    document.getElementById('email').value=val['email'];
+    document.getElementById('phone').value=val['phone'];
+    document.getElementById('da').value=val['date'];
+    document.getElementById('da1').value=val['time'];
+});
