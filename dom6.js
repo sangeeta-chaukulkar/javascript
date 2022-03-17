@@ -10,12 +10,13 @@
 
 // document.cookie='name=sang; expires='+ new Date(2020,0,1).toUTCString();
 // console.log(document.cookie);
-console.log(localStorage.getItem('usersangeeta'));
 
 var sub=document.getElementById('submits');
 sub.addEventListener('click', submitform);
 
+
 function submitform(e){
+    e.preventDefault();
     var name = document.getElementById('name').value;
     var email = document.getElementById('email').value;
     var phone = document.getElementById('phone').value;
@@ -26,7 +27,9 @@ function submitform(e){
         email:email,
         phone:phone,
         date:date,
-        time:time
-    }
-    localStorage.setItem('user'+name,JSON.stringify(data));
+        time:time};
+    localStorage.setItem('userDetails',JSON.stringify(data));
 }
+
+var data1=localStorage.getItem('userDetails');
+alert(data1);
