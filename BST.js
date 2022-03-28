@@ -51,6 +51,36 @@ class BinarySearchTree{
     else 
         return this.search(node.right, data);
     }
+    preorderRecursive(root)
+    {
+    if(root !== null)
+        {
+        console.log(root.data);
+        this.preorderRecursive(root.left);
+        this.preorderRecursive(root.right);
+        }
+    }
+    preorderIterative(root)
+    {
+    if (root == null)
+        return;
+    var rootStack = [];
+    rootStack.push(root);
+    while (rootStack.length > 0)
+        {
+            var currentnode = rootStack[rootStack.length - 1];
+            console.log(currentnode.data);
+            rootStack.pop();
+            if (currentnode.right != null)
+            {
+                rootStack.push(currentnode.right);
+            }
+            if (currentnode.left != null)
+            {
+                rootStack.push(currentnode.left);
+            }
+        }
+    }
 }
 
 var bstobj = new BinarySearchTree();
@@ -61,4 +91,9 @@ root=bstobj.insert(26);
 root=bstobj.insert(1);
 console.log(root);
 console.log(bstobj.search(root,1));
+console.log("preorder traversal using recursive");
+bstobj.preorderRecursive(root);
+console.log("preorder traversal using iterative")
+bstobj.preorderIterative(root);
+
 
