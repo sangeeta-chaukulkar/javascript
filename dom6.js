@@ -11,10 +11,15 @@ function submitform(e){
   data.phone=document.getElementById('phone').value;
   data.date=document.getElementById('da').value;
   data.time=document.getElementById('da1').value;
-  axios.post("https://crudcrud.com/api/8d2ca5137f5c4f71b02686995f7fd5cf/appointmentData", data)
+  axios.post("https://crudcrud.com/api/e5cae32df5014831b8143ea248c149d3/appointmentData", data)
     .then((response) => {
-         console.log(response)
-           console.log(data); })
+         console.log(response);
+           document.getElementById('name').value='';
+           document.getElementById('email').value='';
+           document.getElementById('phone').value='';
+           document.getElementById('da').value='';
+           document.getElementById('da1').value='';
+          })
 
      .catch((err) => {
         console.log(err)});
@@ -24,59 +29,48 @@ function submitform(e){
   userDeatils(); 
 }
 
+userDeatils();
 function userDeatils(){
-  axios.get("https://crudcrud.com/api/8d2ca5137f5c4f71b02686995f7fd5cf/appointmentData")
+  axios.get("https://crudcrud.com/api/e5cae32df5014831b8143ea248c149d3/appointmentData")
   .then((response) => {
-      console.log(response)
-      for (var i = 0; i < response.data.length; i++) {   
-        userList.innerHTML += `<div class="main">
-        <div class="details"><h4  id="names">' ${response.data[i].name}
-        </h4><h5 id="emails"> ${response.data[i].emailID}
-        </h5><p id="phones"> ${response.data[i].phone}</p>
-        <h4  id="names">' ${response.data[i].date}
-        </h4><h4  id="names">' ${response.data[i].time}
-        </h4>
-        </div>
-        <div class="buttons">
-        <button class="btn btn-dark btn-sm float-right" id="edit-button" onclick="editUser(${JSON.stringify(response.data[i]._id)})">Edit</button>
-        <button class="btn btn-danger btn-sm float-right delete" id="delete-button" onclick="removeUser(${JSON.stringify(response.data[i]._id)})">Delete
-        </button></div></div>`;
-    
+      console.log(response);
+      userList.innerHTML="";
+      for (let i = 0; i < response.data.length; i++) {   
+          var newLi =  document.createElement('li');
+          var newLiText = document.createTextNode(response.data[i].emailID);
+          var newLiText1 = document.createTextNode(response.data[i].name);
+          var newLiText2 = document.createTextNode(response.data[i].phone);
+          var newLiText3 = document.createTextNode(response.data[i].date);
+          var newLiText4 = document.createTextNode(response.data[i].time);
+          newLi.appendChild(newLiText1);
+          newLi.appendChild (document.createTextNode ("    "));
+          newLi.appendChild(newLiText);
+          newLi.appendChild (document.createTextNode ("       "));
+          newLi.appendChild(newLiText2);
+          newLi.appendChild (document.createTextNode ("    "));
+          newLi.appendChild(newLiText3);
+          newLi.appendChild (document.createTextNode ("       "));
+          newLi.appendChild(newLiText4);
+          var deleteBtn = document.createElement('button');
+          deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+          deleteBtn.appendChild(document.createTextNode('Delete User'));
+          newLi.appendChild(deleteBtn);
+          userList.appendChild(newLi);
+          deleteBtn.addEventListener('click', () => {
+                axios.delete("https://crudcrud.com/api/e5cae32df5014831b8143ea248c149d3/appointmentData/"+response.data[i]._id)
+                .then((response) => {
+                  console.log(response);
+                  userList.removeChild(newLi);
+                  userDeatils();
+                  })
+                .catch((err) => {
+                  console.log(err)}); 
+          });
+              // console.log(userList);
+        
       }
     })
   .catch((err) => {
       console.log(err)});
 
-  // for (let i = 0; i < localStorage.length; i++) {
-  //   const key = localStorage.key(i);
-  //   var val=JSON.parse(localStorage.getItem(key));
-  //   let str= userList.innerHTML += '<div class="main"><div class="details"><h4  id="names">'+val['name']+'</h4><h5 id="emails">'+val['email']+'</h5><p id="phones">'+val['phone']+'</p></div><div class="buttons"><button class="btn btn-dark btn-sm float-right" id="edit-button" onclick="editUser('+JSON.stringify(val['email'])+')">Edit</button><button class="btn btn-danger btn-sm float-right delete" id="delete-button" onclick="removeUser('+JSON.stringify(val['email'])+')">Delete</button></div></div>';
-  // }
 }   
-
-function removeUser(id){
-  localStorage.removeItem(id);
-  userDeatils(); 
-}
-
-function editUser(id){
-    let val = JSON.parse(localStorage.getItem(id));
-    console.log(val);
-    document.getElementById('name').value=val.name;
-    document.getElementById('email').value=val.email;
-    document.getElementById('phone').value=val.phone;
-    document.getElementById('da').value=val.date;
-    document.getElementById('da1').value=val.time;
-    sub.addEventListener('click',  () => {
-    val.name =  document.getElementById('name').value ;
-    val.email = document.getElementById('email').value ; 
-    val.phone =  document.getElementById('phone').value;
-    val.date=document.getElementById('da').value;
-    val.time=document.getElementById('da1').value;
-    localStorage.setItem(id, JSON.stringify(val));
-
-    removeUser(id);
-    userDeatils(); 
-  });
-  
-}
